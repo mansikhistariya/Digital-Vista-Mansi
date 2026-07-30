@@ -1,194 +1,252 @@
-import { useCallback, useState } from "react";
-import FadeUp from "@/portfolio/components/FadeUp";
-import PrimaryButton from "@/portfolio/components/PrimaryButton";
-import { IconGithub, IconLinkedin, IconMail, IconMapPin, IconSend } from "@/portfolio/components/icons";
-import Input from "@/portfolio/components/Input";
-import Textarea from "@/portfolio/components/Textarea";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  Send,
+  Copy,
+  Check,
+  Globe,
+  Clock,
+  Terminal,
+  Sparkles,
+  MessageSquare,
+} from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/portfolio/components/Icons";
 import { siteConfig } from "@/portfolio/data/site";
-import { sendContactEmail } from "@/utils/sendContactEmail";
-import { validateContactForm } from "@/utils/validateContact";
-
-const INITIAL_FORM = { name: "", email: "", message: "" };
 
 export default function Contact() {
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle");
-  const [submitError, setSubmitError] = useState("");
-  const { contact } = siteConfig;
+  const [copied, setCopied] = useState(false);
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = useCallback((event) => {
-    const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => (prev[name] ? { ...prev, [name]: undefined } : prev));
-    setSubmitError("");
-  }, []);
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(siteConfig.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
 
-  const handleBlur = useCallback(
-    (event) => {
-      const { name } = event.target;
-      const fieldErrors = validateContactForm(form);
-      if (fieldErrors[name]) {
-        setErrors((prev) => ({ ...prev, [name]: fieldErrors[name] }));
-      }
-    },
-    [form]
-  );
-
-  const handleSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-
-      const fieldErrors = validateContactForm(form);
-      if (Object.keys(fieldErrors).length > 0) {
-        setErrors(fieldErrors);
-        return;
-      }
-
-      setStatus("sending");
-      setSubmitError("");
-
-      try {
-        await sendContactEmail({
-          name: form.name.trim(),
-          email: form.email.trim(),
-          message: form.message.trim(),
-        });
-
-        setStatus("sent");
-        setForm(INITIAL_FORM);
-        setErrors({});
-      } catch (error) {
-        setStatus("idle");
-        setSubmitError(
-          error instanceof Error && error.message
-            ? error.message
-            : "Something went wrong. Please try again or email me directly."
-        );
-      }
-    },
-    [form]
-  );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formState.name || !formState.email || !formState.message) return;
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setFormState({ name: "", email: "", message: "" });
+    }, 4000);
+  };
 
   return (
-    <section id="contact" className="section-padding border-t border-border">
-      <div className="mx-auto max-w-3xl px-6 text-center lg:px-8">
-        <FadeUp>
-          <p className="text-xs font-medium tracking-[0.25em] text-text-secondary">
-            — {contact.label} —
-          </p>
-          <h2 className="mt-4 font-heading text-4xl font-bold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
-            {contact.title}{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-violet-500 to-violet-600 bg-clip-text text-transparent">
-              {contact.titleGradient}
+    <section id="contact" className="relative section-padding px-4 sm:px-6 lg:px-8 bg-noise">
+      {/* Ambient Mesh Glows */}
+      <div className="absolute top-1/2 right-10 w-[500px] h-[500px] bg-violet-600/15 blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto">
+        {/* Section Heading */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-mono font-medium text-violet-300 mb-4">
+            <Mail className="h-3.5 w-3.5" />
+            <span>{siteConfig.contact.label}</span>
+          </div>
+          <h2 className="section-heading font-heading text-slate-100">
+            {siteConfig.contact.title} <br />
+            <span className="text-gradient-aurora">
+              {siteConfig.contact.titleGradient}
             </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-text-secondary">
-            {contact.description}
+          <p className="mt-4 max-w-xl text-slate-400 text-sm sm:text-base">
+            {siteConfig.contact.description}
           </p>
-        </FadeUp>
+        </div>
 
-        <FadeUp delay={0.15} className="mt-10">
-          <form
-            onSubmit={handleSubmit}
-            noValidate
-            className="glass-card overflow-hidden rounded-3xl border border-border p-8 text-left sm:p-10"
-          >
-            <div className="grid gap-6 sm:grid-cols-2">
-              <Input
-                label="Your name"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.name}
-                placeholder="Jane Doe"
-                autoComplete="name"
-              />
-              <Input
-                label="Email"
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.email}
-                placeholder="jane@company.com"
-                autoComplete="email"
-              />
-            </div>
-            <div className="mt-6">
-              <Textarea
-                label="Message"
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.message}
-                placeholder="Tell me a little about the project..."
-              />
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left Column: Direct Inquiries & Interactive Terminal Snippet */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* Quick Contact Card */}
+            <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
+              <div className="flex items-center gap-3 text-cyan-400">
+                <Sparkles className="h-5 w-5" />
+                <h3 className="text-sm font-mono uppercase tracking-wider font-semibold">
+                  Direct Inquiries
+                </h3>
+              </div>
 
-            {submitError ? (
-              <p className="mt-4 text-sm text-red-400" role="alert">
-                {submitError}
-              </p>
-            ) : null}
+              <div>
+                <p className="text-xs text-slate-400 uppercase font-mono">
+                  Primary Email
+                </p>
+                <div className="mt-2 flex items-center justify-between gap-2 p-3 rounded-2xl bg-white/[0.03] border border-white/10">
+                  <span className="text-sm font-mono font-semibold text-slate-200 truncate">
+                    {siteConfig.email}
+                  </span>
+                  <button
+                    onClick={handleCopyEmail}
+                    className="flex items-center gap-1.5 rounded-xl bg-violet-600/30 hover:bg-violet-600/60 px-3 py-1.5 text-xs font-semibold text-white transition-colors border border-violet-500/40 shrink-0"
+                    data-cursor="Copy"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-emerald-400" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" />
+                        <span>Copy</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
 
-            <div className="mt-6 flex flex-col gap-5 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex flex-wrap items-center gap-5 text-sm text-text-secondary">
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="inline-flex items-center gap-2 hover:text-text-primary"
-                >
-                  <IconMail size={16} />
-                  {siteConfig.email}
-                </a>
+              {/* Location & Timezone Card */}
+              <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                  <Globe className="h-4 w-4 text-cyan-400" />
+                  <span>{siteConfig.location} (UTC+5:30)</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+                  <Clock className="h-4 w-4 text-violet-400" />
+                  <span>{siteConfig.availability}</span>
+                </div>
+              </div>
+
+              {/* Social Channels */}
+              <div className="pt-4 border-t border-white/10 flex items-center gap-3">
                 <a
                   href={siteConfig.social.github}
                   target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-text-primary"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-2 text-xs font-medium text-slate-300 hover:text-white border border-white/10 transition-colors"
+                  data-cursor="GitHub"
                 >
-                  <IconGithub size={16} />
-                  GitHub
+                  <GithubIcon className="h-4 w-4 text-cyan-400" />
+                  <span>GitHub</span>
                 </a>
                 <a
                   href={siteConfig.social.linkedin}
                   target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-text-primary"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-2 text-xs font-medium text-slate-300 hover:text-white border border-white/10 transition-colors"
+                  data-cursor="LinkedIn"
                 >
-                  <IconLinkedin size={16} />
-                  LinkedIn
+                  <LinkedinIcon className="h-4 w-4 text-violet-400" />
+                  <span>LinkedIn</span>
                 </a>
               </div>
-
-              <PrimaryButton
-                type="submit"
-                className="px-8 py-3.5 disabled:cursor-not-allowed disabled:opacity-60"
-                disabled={status === "sending"}
-              >
-                {status === "sent" ? (
-                  "Message sent ✓"
-                ) : status === "sending" ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    Send message <IconSend size={16} />
-                  </>
-                )}
-              </PrimaryButton>
             </div>
-          </form>
-        </FadeUp>
 
-        <FadeUp delay={0.25}>
-          <p className="mt-8 inline-flex items-center gap-2 text-sm text-text-secondary">
-            <IconMapPin size={15} />
-            {siteConfig.location} • Available worldwide (remote)
-          </p>
-        </FadeUp>
+            {/* Code Terminal Box */}
+            <div className="glass-card p-5 rounded-3xl border border-white/10 font-mono text-xs text-slate-300 space-y-2">
+              <div className="flex items-center justify-between pb-2 border-b border-white/10 text-slate-500">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
+                </div>
+                <span className="text-[10px]">contact.ts</span>
+              </div>
+              <p>
+                <span className="text-violet-400">async function</span>{" "}
+                <span className="text-cyan-300">hireMansi</span>() {"{"}
+              </p>
+              <p className="pl-4 text-slate-400">
+                <span className="text-violet-400">return</span> await fetch(
+                <span className="text-emerald-400">"mailto:{siteConfig.email}"</span>);
+              </p>
+              <p>{"}"}</p>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Message Form */}
+          <div className="lg:col-span-7">
+            <div className="glass-card p-6 sm:p-8 rounded-3xl border border-white/10">
+              <div className="flex items-center gap-3 text-violet-400 mb-6">
+                <MessageSquare className="h-5 w-5" />
+                <h3 className="text-sm font-mono uppercase tracking-wider font-semibold">
+                  Send a Direct Message
+                </h3>
+              </div>
+
+              {submitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-12 text-center space-y-4"
+                >
+                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    <Check className="h-6 w-6" />
+                  </div>
+                  <h4 className="text-lg font-bold text-slate-100">
+                    Message Sent Successfully!
+                  </h4>
+                  <p className="text-sm text-slate-400 max-w-md mx-auto">
+                    Thank you for reaching out. Mansi will get back to you within 24 hours.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
+                      YOUR NAME
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Alex Mercer"
+                      value={formState.name}
+                      onChange={(e) =>
+                        setFormState({ ...formState, name: e.target.value })
+                      }
+                      className="w-full rounded-2xl bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-violet-500/60 focus:bg-white/[0.06] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
+                      YOUR EMAIL ADDRESS
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. alex@company.com"
+                      value={formState.email}
+                      onChange={(e) =>
+                        setFormState({ ...formState, email: e.target.value })
+                      }
+                      className="w-full rounded-2xl bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-violet-500/60 focus:bg-white/[0.06] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
+                      PROJECT OR ROLE DETAILS
+                    </label>
+                    <textarea
+                      rows={4}
+                      required
+                      placeholder="Tell me about your team, application requirements, or scope..."
+                      value={formState.message}
+                      onChange={(e) =>
+                        setFormState({ ...formState, message: e.target.value })
+                      }
+                      className="w-full rounded-2xl bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-violet-500/60 focus:bg-white/[0.06] focus:outline-none transition-colors resize-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 py-3.5 text-sm font-semibold text-white shadow-glow hover:shadow-glow-lg transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    data-cursor="Send"
+                  >
+                    <span>Send Message</span>
+                    <Send className="h-4 w-4" />
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

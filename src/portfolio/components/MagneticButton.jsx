@@ -29,6 +29,8 @@ export default function MagneticButton({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       href={href}
+      data-cursor="pointer"
+      data-cursor-scale="1.5"
       className={cn(base, styles, className)}
       {...props}
     >

@@ -1,203 +1,237 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/portfolio/components/ThemeToggle";
-import PrimaryButton from "@/portfolio/components/PrimaryButton";
-import { BrandLogo } from "@/portfolio/components/icons";
-import { useActiveSection } from "@/portfolio/hooks/useActiveSection";
-import { usePrefersReducedMotion } from "@/portfolio/hooks/usePrefersReducedMotion";
-import { siteConfig } from "@/portfolio/data/site";
-import { cn } from "@/utils/cn";
-
-const nav = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Writing", href: "#blog" },
-  { label: "Contact", href: "#contact" },
-];
-
-function Logo({ onClick }) {
-  return (
-    <a href="#hero" className="flex items-center gap-2.5" onClick={onClick}>
-      <BrandLogo size={32} className="h-8 w-8 shrink-0" />
-      <span className="font-heading text-lg font-bold tracking-tight text-text-primary">
-        {siteConfig.brand}
-      </span>
-    </a>
-  );
-}
-
-function NavLink({ item, active, variant = "desktop", onClick }) {
-  const isActive = active === item.href;
-
-  return (
-    <a
-      href={item.href}
-      aria-current={isActive ? "true" : undefined}
-      onClick={onClick}
-      className={cn(
-        "font-medium transition-colors",
-        variant === "desktop" && [
-          "text-sm",
-          isActive
-            ? "font-semibold text-text-primary"
-            : "text-text-secondary hover:text-text-primary",
-        ],
-        variant === "mobile" && [
-          "border-b border-border py-5 text-lg",
-          isActive
-            ? "text-text-primary"
-            : "text-text-secondary hover:text-text-primary",
-        ]
-      )}
-    >
-      {item.label}
-    </a>
-  );
-}
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Command, Menu, X, Sparkles, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/portfolio/hooks/useTheme";
+import CommandPalette from "./CommandPalette";
 
 export default function Header() {
+  const [activeSection, setActiveSection] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const navHrefs = useMemo(() => nav.map((item) => item.href), []);
-  const activeHref = useActiveSection(navHrefs);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isCmdOpen, setIsCmdOpen] = useState(false);
+  const { theme, toggle: toggleTheme } = useTheme();
+
+  const isLight = theme === "light";
+
+  const navItems = [
+    { id: "hero", label: "Home", href: "#hero" },
+    { id: "about", label: "About", href: "#about" },
+    { id: "skills", label: "Skills", href: "#skills" },
+    { id: "experience", label: "Experience", href: "#experience" },
+    { id: "projects", label: "Projects", href: "#projects" },
+    { id: "contact", label: "Contact", href: "#contact" },
+  ];
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+
+      const sections = navItems.map((item) => item.id);
+      const scrollPosition = window.scrollY + 200;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i]);
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [mobileOpen]);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") setMobileOpen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [mobileOpen]);
-
-  const closeMobileMenu = useCallback(() => setMobileOpen(false), []);
-  const openMobileMenu = useCallback(() => setMobileOpen(true), []);
-
-  const slideTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { type: "tween", duration: 0.3, ease: [0.32, 0.72, 0, 1] };
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setIsMobileOpen(false);
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <>
-      <header
-        className={[
-          "fixed top-0 right-0 left-0 z-50 transition-all duration-500",
-          scrolled
-            ? "border-b border-border bg-bg-primary/90 backdrop-blur-xl"
-            : "bg-bg-primary/60 backdrop-blur-md",
-        ].join(" ")}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4 lg:px-8">
-          <Logo />
-
-          <nav className="hidden items-center gap-4 md:flex lg:gap-7" aria-label="Main">
-            {nav.map((item) => (
-              <NavLink key={item.href} item={item} active={activeHref} />
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <PrimaryButton
-              as="a"
-              href="#contact"
-              className="hidden px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.35)] hover:shadow-[0_0_32px_rgba(139,92,246,0.4)] md:inline-flex"
-            >
-              Hire me
-            </PrimaryButton>
-            <button
-              type="button"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white/[0.04] text-text-primary transition-colors hover:border-white/20 md:hidden"
-              aria-label="Open menu"
-              aria-expanded={mobileOpen}
-              onClick={openMobileMenu}
-            >
-              <Menu size={20} />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="fixed inset-0 z-[60] flex flex-col bg-bg-primary md:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
-            initial={prefersReducedMotion ? false : { x: "100%" }}
-            animate={{ x: 0 }}
-            exit={prefersReducedMotion ? undefined : { x: "100%" }}
-            transition={slideTransition}
+      <header className="fixed top-0 left-0 right-0 z-[9000] flex justify-center px-4 pt-4 sm:pt-6 transition-all duration-300">
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", damping: 25, stiffness: 200 }}
+          className={`flex items-center justify-between gap-4 rounded-full border px-4 py-2.5 transition-all duration-500 max-w-5xl w-full ${
+            scrolled
+              ? isLight
+                ? "bg-white/85 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border-slate-200/80"
+                : "bg-[#0a0a14]/85 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border-white/15"
+              : isLight
+              ? "bg-white/60 backdrop-blur-md border-slate-200/60 shadow-sm"
+              : "bg-white/[0.03] backdrop-blur-md border-white/10"
+          }`}
+        >
+          {/* Logo / Personal Brand Badge */}
+          <a
+            href="#hero"
+            onClick={(e) => handleNavClick(e, "#hero")}
+            className="group flex items-center gap-2.5 pl-2 text-sm font-semibold tracking-wide"
+            data-cursor="Home"
           >
-            <div className="flex items-center justify-between gap-4 px-6 py-4">
-              <Logo onClick={closeMobileMenu} />
-              <div className="flex items-center gap-3">
-                <ThemeToggle />
-                <PrimaryButton
-                  as="a"
-                  href="#contact"
-                  className="px-4 py-2 text-xs shadow-[0_0_24px_rgba(59,130,246,0.35)]"
-                  onClick={closeMobileMenu}
-                >
-                  Hire me
-                </PrimaryButton>
-                <button
-                  type="button"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white/[0.04] text-text-primary transition-colors hover:border-white/20"
-                  aria-label="Close menu"
-                  onClick={closeMobileMenu}
-                >
-                  <X size={20} />
-                </button>
+            <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-violet-600 to-cyan-400 p-[1px] shadow-glow">
+              <div className={`flex h-full w-full items-center justify-center rounded-full ${isLight ? "bg-white" : "bg-[#070710]"}`}>
+                <span className="font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 text-xs">
+                  MK
+                </span>
               </div>
             </div>
-
-            <nav className="flex flex-1 flex-col px-6 pt-10" aria-label="Mobile">
-              {nav.map((item) => (
-                <NavLink
-                  key={item.href}
-                  item={item}
-                  active={activeHref}
-                  variant="mobile"
-                  onClick={closeMobileMenu}
-                />
-              ))}
-            </nav>
-
-            <div className="px-6 pb-10 pt-4">
-              <PrimaryButton
-                as="a"
-                href="#contact"
-                className="w-full justify-center px-6 py-4 text-base shadow-[0_0_32px_rgba(59,130,246,0.4)]"
-                onClick={closeMobileMenu}
-              >
-                Hire me
-              </PrimaryButton>
+            <div className="hidden sm:flex flex-col">
+              <span className={`font-heading text-xs font-bold transition-colors ${isLight ? "text-slate-900 group-hover:text-blue-600" : "text-slate-100 group-hover:text-cyan-400"}`}>
+                Mansi.dev
+              </span>
+              <span className={`text-[10px] ${isLight ? "text-slate-500" : "text-slate-400"}`}>
+                Software Engineer
+              </span>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </a>
+
+          {/* Desktop Navigation Links */}
+          <nav className={`hidden md:flex items-center gap-1 rounded-full p-1 border ${isLight ? "bg-slate-100/80 border-slate-200/80" : "bg-white/[0.04] border-white/5"}`}>
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={`relative px-3.5 py-1.5 text-xs font-medium transition-colors rounded-full ${
+                    isActive
+                      ? isLight
+                        ? "text-slate-900 font-bold"
+                        : "text-white font-semibold"
+                      : isLight
+                      ? "text-slate-600 hover:text-slate-900"
+                      : "text-slate-400 hover:text-slate-200"
+                  }`}
+                  data-cursor={item.label}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className={`absolute inset-0 rounded-full shadow-sm ${
+                        isLight
+                          ? "bg-white border border-slate-200/80 shadow-md"
+                          : "bg-gradient-to-r from-blue-600/60 via-violet-600/60 to-cyan-500/60 shadow-glow"
+                      }`}
+                      transition={{ type: "spring", damping: 25, stiffness: 350 }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Quick Action Button & Command Palette & Theme Toggle */}
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`flex h-8 w-8 items-center justify-center rounded-full border transition-colors ${
+                isLight
+                  ? "border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+              }`}
+              aria-label="Toggle Theme"
+              data-cursor={isLight ? "Dark Mode" : "Light Mode"}
+            >
+              {isLight ? (
+                <Moon className="h-4 w-4 text-violet-600" />
+              ) : (
+                <Sun className="h-4 w-4 text-amber-300" />
+              )}
+            </button>
+
+            {/* Command Palette Trigger */}
+            <button
+              onClick={() => setIsCmdOpen(true)}
+              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                isLight
+                  ? "border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:border-violet-500/40 hover:text-white"
+              }`}
+              data-cursor="Cmd+K"
+            >
+              <Command className={`h-3.5 w-3.5 ${isLight ? "text-violet-600" : "text-cyan-400"}`} />
+              <span className="hidden sm:inline text-[11px]">Search</span>
+              <kbd className={`hidden sm:inline-block rounded px-1 py-0.2 font-mono text-[9px] ${
+                isLight ? "bg-slate-200 text-slate-700" : "bg-white/10 text-slate-300"
+              }`}>
+                ⌘K
+              </kbd>
+            </button>
+
+            <a
+              href="#contact"
+              onClick={(e) => handleNavClick(e, "#contact")}
+              className="hidden lg:flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-glow transition-transform hover:scale-105 active:scale-95"
+              data-cursor="Hire"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-cyan-200" />
+              <span>Get in Touch</span>
+            </a>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileOpen((prev) => !prev)}
+              className={`flex md:hidden h-9 w-9 items-center justify-center rounded-full ${
+                isLight ? "bg-slate-100 text-slate-800 hover:bg-slate-200" : "bg-white/10 text-white hover:bg-white/20"
+              }`}
+              aria-label="Toggle Navigation Menu"
+            >
+              {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Mobile Navigation Drawer */}
+        <AnimatePresence>
+          {isMobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className={`absolute top-20 left-4 right-4 z-[8999] rounded-2xl border p-4 backdrop-blur-2xl shadow-2xl md:hidden ${
+                isLight ? "bg-white/95 border-slate-200" : "bg-[#0a0a14]/95 border-white/15"
+              }`}
+            >
+              <nav className="flex flex-col gap-2">
+                {navItems.map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                      activeSection === item.id
+                        ? isLight
+                          ? "bg-violet-50 text-violet-700 font-semibold border border-violet-200"
+                          : "bg-violet-600/30 text-white font-semibold border border-violet-500/30"
+                        : isLight
+                        ? "text-slate-700 hover:bg-slate-100"
+                        : "text-slate-300 hover:bg-white/5 hover:text-white"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {activeSection === item.id && (
+                      <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-glow" />
+                    )}
+                  </a>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Command Palette Modal */}
+      <CommandPalette isOpen={isCmdOpen} setIsOpen={setIsCmdOpen} />
     </>
   );
 }
