@@ -14,7 +14,7 @@ export default function Blog() {
             variant="label"
             label="Writing"
             title="Insights & notes"
-            description="Thoughts on frontend craft, systems, and shipping quality at speed."
+            description="Thoughts on MERN Stack  craft, systems, and shipping quality at speed."
           />
         </FadeUp>
 

@@ -1,27 +1,29 @@
 export const blogPosts = [
   {
-    slug: "cinematic-motion-react",
-    title: "Cinematic motion in React without hurting Core Web Vitals",
-    excerpt: "Patterns for Framer Motion and GSAP that stay performant in production.",
+    slug: "building-scalable-saas-mern-stack",
+    title: "Building Scalable SaaS Applications with the MERN Stack",
+    excerpt:
+      "Architecture patterns, database design, and deployment strategies for production-grade SaaS platforms using MongoDB, Express, React, and Node.js.",
+    date: "Jul 2026",
+    readTime: "10 min",
+    tag: "MERN Stack",
+  },
+  {
+    slug: "aws-deployment-guide-node-react",
+    title: "Complete AWS Deployment Guide for Node.js & React Applications",
+    excerpt:
+      "Step-by-step guide to deploying full-stack applications on AWS EC2, configuring S3, setting up domains, SSL, and monitoring.",
+    date: "May 2026",
+    readTime: "12 min",
+    tag: "AWS",
+  },
+  {
+    slug: "react-performance-optimization-production",
+    title: "React Performance Optimization for Production Applications",
+    excerpt:
+      "Practical techniques for achieving Lighthouse 95+ scores — lazy loading, code splitting, memoization, and bundle optimization strategies.",
     date: "Mar 2026",
     readTime: "8 min",
     tag: "Performance",
   },
-  {
-    slug: "design-tokens-at-scale",
-    title: "Design tokens that survive organizational scale",
-    excerpt: "How semantic tokens prevent drift when dozens of teams ship in parallel.",
-    date: "Jan 2026",
-    readTime: "6 min",
-    tag: "Design Systems",
-  },
-  {
-    slug: "streaming-ux-patterns",
-    title: "Streaming UX patterns for perceived performance",
-    excerpt: "Skeletons, suspense boundaries, and intent-based prefetching.",
-    date: "Nov 2025",
-    readTime: "10 min",
-    tag: "UX",
-  },
 ];
-

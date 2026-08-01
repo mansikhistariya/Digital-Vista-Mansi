@@ -19,7 +19,7 @@ const Home = () => {
   useLenis();
 
   useEffect(() => {
-    document.title = "Mansi Khistariya — Senior Frontend Engineer & UI Architect";
+    document.title = "Mansi Khistariya — MERN Stack  Engineer & UI Architect";
   }, []);
 
   return (

@@ -8,7 +8,7 @@ export default function Skills() {
 
   const getCategoryIcon = (id) => {
     switch (id) {
-      case "frontend":
+      case "MERN Stack ":
         return Code2;
       case "styling":
         return Sparkles;
@@ -40,7 +40,7 @@ export default function Skills() {
             Skills & <span className="text-gradient-aurora">Architecture Stack.</span>
           </h2>
           <p className="mt-4 max-w-xl text-slate-400 text-sm sm:text-base">
-            Engineered with modern frontend standards, performant libraries, and enterprise UI architecture.
+            Engineered with modern MERN Stack  standards, performant libraries, and enterprise UI architecture.
           </p>
         </div>
 
@@ -54,11 +54,10 @@ export default function Skills() {
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all ${
-                  isActive
+                className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all ${isActive
                     ? "bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-glow"
                     : "glass-pill text-slate-400 hover:text-slate-200 hover:bg-white/10"
-                }`}
+                  }`}
                 data-cursor={cat.title}
               >
                 <Icon className="h-4 w-4" />
