@@ -53,7 +53,7 @@ export default function Footer() {
           <button
             onClick={scrollToTop}
             className="flex items-center justify-center h-8 w-8 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:bg-violet-600 hover:text-white transition-all shadow-glow"
-            aria-label="Back to Top"
+            aria-label="Scroll to top of page"
           >
             <ArrowUp className="h-4 w-4" />
           </button>

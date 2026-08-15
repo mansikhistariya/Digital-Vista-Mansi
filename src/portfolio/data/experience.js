@@ -1,7 +1,7 @@
 export const experiences = [
   {
     company: "Vivansh InfoTech",
-    role: "Web Developer",
+    role: "MERN Stack Developer",
     period: "Apr 2023 — Present",
     location: "Ahmedabad, India",
     side: "right",

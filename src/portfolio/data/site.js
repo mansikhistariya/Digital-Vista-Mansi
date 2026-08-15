@@ -11,8 +11,8 @@ export const siteConfig = {
   availability: "Available for Projects · Remote Worldwide",
   availabilityBadge: "Open for Freelance, Contract & Full-Time Roles",
   social: {
-    github: "https://github.com/mansi-khistariya",
-    linkedin: "https://linkedin.com/in/mansi-khistariya",
+    github: "https://github.com/mansikhistariya",
+    linkedin: "https://www.linkedin.com/in/mansi-khistariya-9b269222a/",
   },
   hero: {
     greeting: "Full-Stack MERN Developer",

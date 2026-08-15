@@ -34,10 +34,10 @@ export default function Projects() {
             <FolderGit2 className="h-3.5 w-3.5" />
             <span>FEATURED PORTFOLIO WORK</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
             Enterprise SaaS & <span className="text-gradient-aurora">AI Products.</span>
           </h2>
-          <p className="mt-4 max-w-xl text-slate-400 text-sm sm:text-base">
+          <p className="mt-4 max-w-xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
             High-impact web applications built with pixel-perfect UI craftsmanship and robust architecture.
           </p>
         </div>
@@ -164,6 +164,7 @@ export default function Projects() {
                   </div>
                   <button
                     onClick={() => setSelectedProject(null)}
+                    aria-label="Close case study details"
                     className="rounded-full p-1.5 bg-white/10 hover:bg-white/20 text-white"
                   >
                     <X className="h-5 w-5" />

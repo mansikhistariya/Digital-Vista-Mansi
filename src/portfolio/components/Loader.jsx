@@ -17,43 +17,17 @@ export default function Loader() {
   useEffect(() => {
     if (isLoaded) return;
 
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion) {
+      setLoaded();
+      return;
+    }
 
-    const counter = { value: 0 };
-    const tl = gsap.timeline({
-      onComplete: () => {
-        setLoaded();
-      },
-    });
+    // High performance fast loader: complete immediately on DOM idle
+    const timer = setTimeout(() => {
+      setLoaded();
+    }, 250);
 
-    tl.to(counter, {
-      value: 100,
-      duration: 2.2,
-      ease: "power2.inOut",
-      onUpdate: () => setProgress(Math.round(counter.value)),
-    });
-
-    tl.fromTo(
-      logoRef.current,
-      { scale: 0.6, opacity: 0, filter: "blur(12px)" },
-      { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "power4.out" },
-      0.3
-    );
-
-    tl.fromTo(
-      maskRef.current,
-      { scale: 0 },
-      { scale: 3, duration: 1.4, ease: "power4.inOut" },
-      1.6
-    );
-
-    tl.to(
-      overlayRef.current,
-      { opacity: 0, duration: 0.6, ease: "power2.inOut", pointerEvents: "none" },
-      2.4
-    );
-
-    return () => tl.kill();
+    return () => clearTimeout(timer);
   }, [isLoaded, setLoaded, prefersReducedMotion]);
 
   if (isLoaded) return null;

@@ -48,13 +48,13 @@ export default function Contact() {
             <Mail className="h-3.5 w-3.5" />
             <span>{siteConfig.contact.label}</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
             {siteConfig.contact.title} <br />
             <span className="text-gradient-aurora">
               {siteConfig.contact.titleGradient}
             </span>
           </h2>
-          <p className="mt-4 max-w-xl text-slate-400 text-sm sm:text-base">
+          <p className="mt-4 max-w-xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
             {siteConfig.contact.description}
           </p>
         </div>
@@ -64,7 +64,7 @@ export default function Contact() {
           <div className="lg:col-span-5 space-y-6">
             {/* Quick Contact Card */}
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-              <div className="flex items-center gap-3 text-cyan-400">
+              <div className="flex items-center gap-3 text-cyan-500 dark:text-cyan-400">
                 <Sparkles className="h-5 w-5" />
                 <h3 className="text-sm font-mono uppercase tracking-wider font-semibold">
                   Direct Inquiries
@@ -72,16 +72,17 @@ export default function Contact() {
               </div>
 
               <div>
-                <p className="text-xs text-slate-400 uppercase font-mono">
+                <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-mono">
                   Primary Email
                 </p>
-                <div className="mt-2 flex items-center justify-between gap-2 p-3 rounded-2xl bg-white/[0.03] border border-white/10">
-                  <span className="text-sm font-mono font-semibold text-slate-200 truncate">
+                <div className="mt-2 flex items-center justify-between gap-2 p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10">
+                  <span className="text-sm font-mono font-semibold text-slate-800 dark:text-slate-200 truncate">
                     {siteConfig.email}
                   </span>
                   <button
                     onClick={handleCopyEmail}
-                    className="flex items-center gap-1.5 rounded-xl bg-violet-600/30 hover:bg-violet-600/60 px-3 py-1.5 text-xs font-semibold text-white transition-colors border border-violet-500/40 shrink-0"
+                    aria-label="Copy email address"
+                    className="flex items-center gap-1.5 rounded-xl bg-violet-600 hover:bg-violet-700 px-3 py-1.5 text-xs font-semibold text-white transition-colors border border-violet-500/40 shrink-0"
                     data-cursor="Copy"
                   >
                     {copied ? (
@@ -100,45 +101,45 @@ export default function Contact() {
               </div>
 
               {/* Location & Timezone Card */}
-              <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                  <Globe className="h-4 w-4 text-cyan-400" />
+              <div className="p-4 rounded-2xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+                  <Globe className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
                   <span>{siteConfig.location} (UTC+5:30)</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                  <Clock className="h-4 w-4 text-violet-400" />
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-600 dark:text-slate-400">
+                  <Clock className="h-4 w-4 text-violet-600 dark:text-violet-400" />
                   <span>{siteConfig.availability}</span>
                 </div>
               </div>
 
               {/* Social Channels */}
-              <div className="pt-4 border-t border-white/10 flex items-center gap-3">
+              <div className="pt-4 border-t border-slate-200/60 dark:border-white/10 flex items-center gap-3">
                 <a
                   href={siteConfig.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-2 text-xs font-medium text-slate-300 hover:text-white border border-white/10 transition-colors"
+                  className="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 transition-colors"
                   data-cursor="GitHub"
                 >
-                  <GithubIcon className="h-4 w-4 text-cyan-400" />
+                  <GithubIcon className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
                   <span>GitHub</span>
                 </a>
                 <a
                   href={siteConfig.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-xl bg-white/5 hover:bg-white/10 px-4 py-2 text-xs font-medium text-slate-300 hover:text-white border border-white/10 transition-colors"
+                  className="flex items-center gap-2 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 transition-colors"
                   data-cursor="LinkedIn"
                 >
-                  <LinkedinIcon className="h-4 w-4 text-violet-400" />
+                  <LinkedinIcon className="h-4 w-4 text-violet-600 dark:text-violet-400" />
                   <span>LinkedIn</span>
                 </a>
               </div>
             </div>
 
             {/* Code Terminal Box */}
-            <div className="glass-card p-5 rounded-3xl border border-white/10 font-mono text-xs text-slate-300 space-y-2">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10 text-slate-500">
+            <div className="glass-card p-5 rounded-3xl border border-slate-200 dark:border-white/10 font-mono text-xs text-slate-700 dark:text-slate-300 space-y-2">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10 text-slate-500">
                 <div className="flex items-center gap-1.5">
                   <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
                   <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
@@ -147,12 +148,12 @@ export default function Contact() {
                 <span className="text-[10px]">contact.ts</span>
               </div>
               <p>
-                <span className="text-violet-400">async function</span>{" "}
-                <span className="text-cyan-300">hireMansi</span>() {"{"}
+                <span className="text-violet-600 dark:text-violet-400">async function</span>{" "}
+                <span className="text-cyan-600 dark:text-cyan-300">hireMansi</span>() {"{"}
               </p>
-              <p className="pl-4 text-slate-400">
-                <span className="text-violet-400">return</span> await fetch(
-                <span className="text-emerald-400">"mailto:{siteConfig.email}"</span>);
+              <p className="pl-4 text-slate-600 dark:text-slate-400">
+                <span className="text-violet-600 dark:text-violet-400">return</span> await fetch(
+                <span className="text-emerald-600 dark:text-emerald-400">"mailto:{siteConfig.email}"</span>);
               </p>
               <p>{"}"}</p>
             </div>
@@ -160,8 +161,8 @@ export default function Contact() {
 
           {/* Right Column: Contact Message Form */}
           <div className="lg:col-span-7">
-            <div className="glass-card p-6 sm:p-8 rounded-3xl border border-white/10">
-              <div className="flex items-center gap-3 text-violet-400 mb-6">
+            <div className="glass-card p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10">
+              <div className="flex items-center gap-3 text-violet-600 dark:text-violet-400 mb-6">
                 <MessageSquare className="h-5 w-5" />
                 <h3 className="text-sm font-mono uppercase tracking-wider font-semibold">
                   Send a Direct Message
@@ -174,23 +175,24 @@ export default function Contact() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-12 text-center space-y-4"
                 >
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 border border-emerald-500/30">
                     <Check className="h-6 w-6" />
                   </div>
-                  <h4 className="text-lg font-bold text-slate-100">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                     Message Sent Successfully!
                   </h4>
-                  <p className="text-sm text-slate-400 max-w-md mx-auto">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
                     Thank you for reaching out. Mansi will get back to you within 24 hours.
                   </p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
+                    <label htmlFor="contact-name" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
                       YOUR NAME
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       required
                       placeholder="e.g. Alex Mercer"
@@ -198,15 +200,16 @@ export default function Contact() {
                       onChange={(e) =>
                         setFormState({ ...formState, name: e.target.value })
                       }
-                      className="w-full rounded-2xl bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-violet-500/60 focus:bg-white/[0.06] focus:outline-none transition-colors"
+                      className="w-full rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-violet-500 focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
+                    <label htmlFor="contact-email" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
                       YOUR EMAIL ADDRESS
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       required
                       placeholder="e.g. alex@company.com"
@@ -214,15 +217,16 @@ export default function Contact() {
                       onChange={(e) =>
                         setFormState({ ...formState, email: e.target.value })
                       }
-                      className="w-full rounded-2xl bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-violet-500/60 focus:bg-white/[0.06] focus:outline-none transition-colors"
+                      className="w-full rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-violet-500 focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 mb-1.5">
+                    <label htmlFor="contact-message" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
                       PROJECT OR ROLE DETAILS
                     </label>
                     <textarea
+                      id="contact-message"
                       rows={4}
                       required
                       placeholder="Tell me about your team, application requirements, or scope..."
@@ -230,7 +234,7 @@ export default function Contact() {
                       onChange={(e) =>
                         setFormState({ ...formState, message: e.target.value })
                       }
-                      className="w-full rounded-2xl bg-white/[0.03] border border-white/10 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-violet-500/60 focus:bg-white/[0.06] focus:outline-none transition-colors resize-none"
+                      className="w-full rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-violet-500 focus:outline-none transition-colors resize-none"
                     />
                   </div>
 

@@ -10,16 +10,20 @@ import Footer from "@/portfolio/components/Footer";
 import Hero from "@/portfolio/sections/Hero";
 
 const About = lazy(() => import("@/portfolio/sections/About"));
+const Services = lazy(() => import("@/portfolio/sections/Services"));
 const Skills = lazy(() => import("@/portfolio/sections/Skills"));
 const Experience = lazy(() => import("@/portfolio/sections/Experience"));
 const Projects = lazy(() => import("@/portfolio/sections/Projects"));
+const WhyHireMe = lazy(() => import("@/portfolio/sections/WhyHireMe"));
+const Process = lazy(() => import("@/portfolio/sections/Process"));
+const FAQs = lazy(() => import("@/portfolio/sections/FAQs"));
 const Contact = lazy(() => import("@/portfolio/sections/Contact"));
 
 const Home = () => {
   useLenis();
 
   useEffect(() => {
-    document.title = "Mansi Khistariya — MERN Stack  Engineer & UI Architect";
+    document.title = "Mansi Khistariya — Frontend Developer & React.js Specialist | MERN Stack Engineer";
   }, []);
 
   return (
@@ -29,13 +33,17 @@ const Home = () => {
         <CustomCursor />
         <ScrollProgress />
         <Header />
-        <main className="relative z-10 overflow-hidden">
+        <main id="main-content" className="relative z-10 overflow-hidden">
           <Hero />
           <Suspense fallback={null}>
             <About />
+            <Services />
             <Skills />
             <Experience />
             <Projects />
+            <WhyHireMe />
+            <Process />
+            <FAQs />
             <Contact />
           </Suspense>
         </main>

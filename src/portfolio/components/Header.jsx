@@ -16,6 +16,7 @@ export default function Header() {
   const navItems = [
     { id: "hero", label: "Home", href: "#hero" },
     { id: "about", label: "About", href: "#about" },
+    { id: "services", label: "Services", href: "#services" },
     { id: "skills", label: "Skills", href: "#skills" },
     { id: "experience", label: "Experience", href: "#experience" },
     { id: "projects", label: "Projects", href: "#projects" },
@@ -53,21 +54,18 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[9000] flex justify-center px-4 pt-4 sm:pt-6 transition-all duration-300">
-        <motion.div
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className={`flex items-center justify-between gap-4 rounded-full border px-4 py-2.5 transition-all duration-500 max-w-5xl w-full ${
-            scrolled
-              ? isLight
-                ? "bg-white/85 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] border-slate-200/80"
-                : "bg-[#0a0a14]/85 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] border-white/15"
-              : isLight
-              ? "bg-white/60 backdrop-blur-md border-slate-200/60 shadow-sm"
-              : "bg-white/[0.03] backdrop-blur-md border-white/10"
-          }`}
-        >
+      <header
+        className={`fixed top-0 left-0 right-0 z-[9000] w-full transition-all duration-300 border-b ${
+          scrolled
+            ? isLight
+              ? "bg-white/85 backdrop-blur-xl border-slate-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] py-3.5 px-4 sm:px-8"
+              : "bg-[#05050c]/85 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] py-3.5 px-4 sm:px-8"
+            : isLight
+            ? "bg-white/60 backdrop-blur-lg border-slate-200/50 py-4 px-4 sm:px-8"
+            : "bg-[#05050c]/40 backdrop-blur-lg border-white/5 py-4 px-4 sm:px-8"
+        }`}
+      >
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           {/* Logo / Personal Brand Badge */}
           <a
             href="#hero"
@@ -152,6 +150,7 @@ export default function Header() {
             {/* Command Palette Trigger */}
             <button
               onClick={() => setIsCmdOpen(true)}
+              aria-label="Open Command Palette"
               className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
                 isLight
                   ? "border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200"
@@ -189,7 +188,7 @@ export default function Header() {
               {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* Mobile Navigation Drawer */}
         <AnimatePresence>

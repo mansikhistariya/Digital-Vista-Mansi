@@ -156,6 +156,9 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
 
           {/* Modal Box */}
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Command Palette Navigation"
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -167,6 +170,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
               <Search className="h-5 w-5 text-violet-400" />
               <input
                 type="text"
+                aria-label="Type a command or search section"
                 placeholder="Type a command or search section..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -175,6 +179,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
               />
               <button
                 onClick={() => setIsOpen(false)}
+                aria-label="Close command palette"
                 className="rounded-lg p-1 text-slate-400 hover:bg-white/10 hover:text-white"
               >
                 <X className="h-4 w-4" />

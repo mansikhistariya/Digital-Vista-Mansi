@@ -17,7 +17,8 @@ export function useLenis() {
   const hasFinePointer = useFinePointer();
 
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    const isMobile = window.innerWidth < 768 || !hasFinePointer;
+    if (prefersReducedMotion || isMobile) return;
 
     const lenis = new Lenis({
       duration: 1.4,

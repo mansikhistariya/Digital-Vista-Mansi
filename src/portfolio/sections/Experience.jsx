@@ -15,16 +15,19 @@ export default function Experience() {
             <Briefcase className="h-3.5 w-3.5" />
             <span>CAREER TRAJECTORY</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
             Professional <span className="text-gradient-aurora">Experience.</span>
           </h2>
-          <p className="mt-4 max-w-xl text-slate-400 text-sm sm:text-base">
+          <p className="mt-4 max-w-xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
             Proven track record delivering scalable client applications and enterprise SaaS UIs.
           </p>
         </div>
 
         {/* Timeline Line & Node Cards */}
-        <div className="relative border-l border-white/10 pl-6 sm:pl-10 ml-4 sm:ml-8 space-y-12">
+        <div className="relative space-y-10 sm:space-y-12">
+          {/* Vertical Timeline Gradient Line */}
+          <div className="absolute left-3 sm:left-4 top-4 bottom-4 w-0.5 bg-gradient-to-b from-violet-500 via-cyan-500 to-slate-700/20" />
+
           {experiences.map((exp, idx) => (
             <motion.div
               key={idx}
@@ -32,10 +35,10 @@ export default function Experience() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.15 }}
-              className="relative group"
+              className="relative pl-9 sm:pl-12 group"
             >
               {/* Timeline Glowing Node Dot */}
-              <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#050508] border-2 border-violet-500 group-hover:border-cyan-400 transition-colors shadow-glow">
+              <div className="absolute left-3 sm:left-4 -translate-x-1/2 top-7 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 dark:bg-[#050508] border-2 border-violet-500 group-hover:border-cyan-400 transition-colors shadow-glow z-10">
                 <div className="h-2 w-2 rounded-full bg-cyan-400" />
               </div>
 
@@ -43,32 +46,32 @@ export default function Experience() {
               <div className="glass-card p-6 sm:p-8 rounded-3xl group-hover:border-violet-500/40 transition-colors">
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-bold font-heading text-slate-100">
+                    <h3 className="text-xl sm:text-2xl font-bold font-heading text-slate-900 dark:text-slate-100">
                       {exp.role}
                     </h3>
-                    <h4 className="text-base font-medium text-violet-400 mt-0.5">
+                    <h4 className="text-base font-medium text-violet-600 dark:text-violet-400 mt-0.5">
                       {exp.company}
                     </h4>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-400">
-                    <span className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1 border border-white/10">
-                      <Calendar className="h-3.5 w-3.5 text-cyan-400" />
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-600 dark:text-slate-400">
+                    <span className="flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-white/5 px-3 py-1 border border-slate-200 dark:border-white/10">
+                      <Calendar className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-400" />
                       {exp.period}
                     </span>
-                    <span className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1 border border-white/10">
-                      <MapPin className="h-3.5 w-3.5 text-violet-400" />
+                    <span className="flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-white/5 px-3 py-1 border border-slate-200 dark:border-white/10">
+                      <MapPin className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400" />
                       {exp.location}
                     </span>
                   </div>
                 </div>
 
                 {/* Achievements List */}
-                <div className="space-y-3 mt-6 pt-4 border-t border-white/10">
+                <div className="space-y-3 mt-6 pt-4 border-t border-slate-200/60 dark:border-white/10">
                   {exp.achievements.map((ach, aIdx) => (
                     <div key={aIdx} className="flex items-start gap-3">
-                      <ChevronRight className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
-                      <p className="text-sm text-slate-300 leading-relaxed">
+                      <ChevronRight className="h-4 w-4 text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5" />
+                      <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                         {ach}
                       </p>
                     </div>
