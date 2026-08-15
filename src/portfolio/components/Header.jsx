@@ -3,14 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Command, Menu, X, Sparkles, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/portfolio/hooks/useTheme";
 import CommandPalette from "./CommandPalette";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/portfolio/components/ThemeToggle";
-import PrimaryButton from "@/portfolio/components/PrimaryButton";
 import { BrandLogo } from "@/portfolio/components/Icons";
-import { useActiveSection } from "@/portfolio/hooks/useActiveSection";
-import { usePrefersReducedMotion } from "@/portfolio/hooks/usePrefersReducedMotion";
 import { siteConfig } from "@/portfolio/data/site";
 import { cn } from "@/utils/cn";
 
