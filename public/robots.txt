@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap URL
-Sitemap: https://digital-vista-mansi.vercel.app/sitemap.xml
+Sitemap: https://mansikhistariya.vercel.app/sitemap.xml
