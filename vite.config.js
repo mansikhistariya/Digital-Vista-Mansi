@@ -13,11 +13,22 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes("node_modules/three")) {
+            return "vendor-three";
+          }
           if (id.includes("node_modules/react-dom") || id.includes("node_modules/react/")) {
             return "vendor-react";
           }
@@ -26,6 +37,9 @@ export default defineConfig({
           }
           if (id.includes("node_modules/lenis")) {
             return "vendor-lenis";
+          }
+          if (id.includes("node_modules/gsap")) {
+            return "vendor-gsap";
           }
         },
       },
