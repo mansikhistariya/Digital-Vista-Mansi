@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  Sparkles,
   ArrowUpRight,
   FileText,
   Terminal,
@@ -56,21 +55,22 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className={`inline-flex items-center gap-2.5 rounded-full border px-4 py-2 text-xs sm:text-sm font-medium backdrop-blur-xl shadow-sm mb-8 transition-colors ${isLight
-              ? "border-slate-200 bg-white/80 text-slate-800 shadow-slate-200/50"
-              : "border-white/10 bg-white/[0.04] text-slate-200 shadow-glow"
+          className={`inline-flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 rounded-2xl sm:rounded-full border px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-medium backdrop-blur-md shadow-sm mb-8 transition-colors ${isLight
+            ? "border-slate-200 bg-white/80 text-slate-800 shadow-slate-200/50"
+            : "border-white/10 bg-white/[0.04] text-slate-200 shadow-glow"
             }`}
         >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-          </span>
-          <span className={isLight ? "text-slate-800 font-medium" : "text-slate-200"}>
-            Available for Global Remote Roles
-          </span>
-          <span className={isLight ? "text-slate-300" : "text-white/20"}>|</span>
-          <div className={`flex items-center gap-1 font-mono text-[11px] sm:text-xs ${isLight ? "text-slate-600" : "text-slate-400"
-            }`}>
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <span className={isLight ? "text-slate-800 font-medium" : "text-slate-200"}>
+              Available for Remote Work
+            </span>
+          </div>
+          <span className={`hidden sm:inline ${isLight ? "text-slate-300" : "text-white/20"}`}>|</span>
+          <div className={`flex items-center gap-1.5 font-mono text-[11px] sm:text-xs ${isLight ? "text-slate-600" : "text-slate-400"}`}>
             <Globe className={`h-3.5 w-3.5 ${isLight ? "text-blue-600" : "text-cyan-400"}`} />
             <span>India</span>
             <Clock className={`h-3 w-3 ml-1 ${isLight ? "text-violet-600" : "text-violet-400"}`} />
@@ -85,21 +85,19 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="space-y-4 max-w-4xl"
         >
-          <h2 className={`text-xs sm:text-sm font-mono tracking-widest uppercase font-semibold ${isLight ? "text-blue-600" : "text-cyan-400"
-            }`}>
-            {siteConfig.name} — MERN Stack  Software Engineer
+          <h2 className={`text-xs sm:text-sm font-mono tracking-widest uppercase font-semibold ${isLight ? "text-blue-600" : "text-cyan-400"}`}>
+            {siteConfig.name} — Full-Stack Engineer
           </h2>
 
           <h1 className="hero-heading font-heading tracking-tight">
-            <span className={isLight ? "text-slate-900" : "text-slate-100"}>Crafting </span>
+            <span className={isLight ? "text-slate-900" : "text-slate-100"}>Building </span>
             <span className="text-gradient-aurora font-extrabold">
-              Interfaces
+              Production Web Apps
             </span>{" "}
             <br className="hidden sm:inline" />
-            <span className={isLight ? "text-slate-900 font-semibold" : "text-slate-100 font-semibold"}>that Feel </span>
-            <span className={`italic font-serif font-normal ${isLight ? "text-violet-700" : "text-violet-300"
-              }`}>
-              Inevitable.
+            <span className={isLight ? "text-slate-900 font-semibold" : "text-slate-100 font-semibold"}>& Modern </span>
+            <span className={`italic font-serif font-normal ${isLight ? "text-violet-700" : "text-violet-300"}`}>
+              SaaS Platforms.
             </span>
           </h1>
         </motion.div>
@@ -109,35 +107,35 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className={`mt-6 max-w-2xl text-base sm:text-lg font-normal leading-relaxed ${isLight ? "text-slate-700" : "text-slate-300"
-            }`}
+          className={`mt-6 max-w-2xl text-base sm:text-lg font-normal leading-relaxed ${isLight ? "text-slate-700" : "text-slate-300"}`}
         >
           {siteConfig.hero.intro}
         </motion.p>
 
-        {/* Floating Code Snippet Card */}
-        <motion.div
+        {/* Code Snippet Card */}
+        {/* <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className={`mt-8 hidden md:flex items-center gap-4 px-5 py-3 rounded-2xl border shadow-xl backdrop-blur-xl transition-colors ${isLight
-              ? "bg-white/90 border-slate-200/90 text-slate-800 shadow-slate-200/80"
+          className={`mt-8 hidden md:flex items-center gap-4 px-5 py-3 rounded-2xl border shadow-xl backdrop-blur-md transition-colors ${
+            isLight
+              ? "bg-white/90 border-slate-200 text-slate-800 shadow-slate-200/80"
               : "bg-white/[0.04] border-white/10 text-slate-300 shadow-2xl"
-            }`}
+          }`}
           data-cursor="Code"
         >
-          <div className={`flex items-center gap-2 text-xs font-mono ${isLight ? "text-slate-800" : "text-slate-300"
-            }`}>
+          <div className={`flex items-center gap-2 text-xs font-mono ${isLight ? "text-slate-800" : "text-slate-300"}`}>
             <Terminal className={`h-4 w-4 ${isLight ? "text-blue-600" : "text-cyan-400"}`} />
-            <span className={isLight ? "text-purple-700 font-semibold" : "text-violet-400"}>const</span> engineer ={" "}
-            <span className={isLight ? "text-emerald-700 font-semibold" : "text-emerald-400"}>{"{"}</span> stack: [
+            <span className={isLight ? "text-purple-700 font-semibold" : "text-violet-400"}>const</span> developer ={" "}
+            <span className={isLight ? "text-emerald-700 font-semibold" : "text-emerald-400"}>{"{"}</span> name:{" "}
+            <span className={isLight ? "text-amber-700" : "text-amber-300"}>"Mansi"</span>, stack: [
             <span className={isLight ? "text-amber-700" : "text-amber-300"}>"React"</span>,{" "}
             <span className={isLight ? "text-amber-700" : "text-amber-300"}>"Next.js"</span>,{" "}
-            <span className={isLight ? "text-amber-700" : "text-amber-300"}>"TypeScript"</span>], design:{" "}
-            <span className={isLight ? "text-cyan-700 font-semibold" : "text-cyan-300"}>"Awwwards-Grade"</span>{" "}
+            <span className={isLight ? "text-amber-700" : "text-amber-300"}>"Node.js"</span>], status:{" "}
+            <span className={isLight ? "text-cyan-700 font-semibold" : "text-cyan-300"}>"Available"</span>{" "}
             <span className={isLight ? "text-emerald-700 font-semibold" : "text-emerald-400"}>{"}"}</span>;
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Action CTAs */}
         <motion.div
@@ -160,12 +158,12 @@ export default function Hero() {
           <a
             href="#contact"
             className={`inline-flex items-center gap-2 rounded-full border px-6 py-3.5 text-sm font-medium backdrop-blur-xl transition-all duration-300 ${isLight
-                ? "border-slate-300/80 bg-white/90 text-slate-800 hover:bg-slate-100 shadow-sm"
-                : "border-white/15 bg-white/[0.05] text-slate-200 hover:bg-white/10 hover:border-violet-500/40 hover:text-white"
+              ? "border-slate-300/80 bg-white/90 text-slate-800 hover:bg-slate-100 shadow-sm"
+              : "border-white/15 bg-white/[0.05] text-slate-200 hover:bg-white/10 hover:border-violet-500/40 hover:text-white"
               }`}
             data-cursor="Contact"
           >
-            <Sparkles className={`h-4 w-4 ${isLight ? "text-violet-600" : "text-violet-400"}`} />
+            <FileText className={`h-4 w-4 ${isLight ? "text-violet-600" : "text-violet-400"}`} />
             <span>Get in Touch</span>
           </a>
 
@@ -175,8 +173,8 @@ export default function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-flex items-center gap-2 rounded-full border px-5 py-3.5 text-sm font-medium transition-colors ${isLight
-                ? "border-slate-300/80 bg-white/60 text-slate-700 hover:text-slate-900 hover:bg-white"
-                : "border-white/10 bg-transparent text-slate-400 hover:text-slate-200 hover:border-white/20"
+              ? "border-slate-300/80 bg-white/60 text-slate-700 hover:text-slate-900 hover:bg-white"
+              : "border-white/10 bg-transparent text-slate-400 hover:text-slate-200 hover:border-white/20"
               }`}
             data-cursor="Resume"
           >

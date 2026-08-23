@@ -57,23 +57,23 @@ export default function About() {
               </p>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-white/10 grid grid-cols-2 gap-4">
+            <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/20">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/20">
                   <Layers className="h-5 w-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs text-slate-500 dark:text-slate-400">Architecture</p>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Component Driven</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">Component Driven</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500 dark:text-violet-400 border border-violet-500/20">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500 dark:text-violet-400 border border-violet-500/20">
                   <TrendingUp className="h-5 w-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs text-slate-500 dark:text-slate-400">Performance</p>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Lighthouse 95+</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">Lighthouse 95+</p>
                 </div>
               </div>
             </div>
@@ -85,17 +85,17 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="md:col-span-5 glass-card p-6 sm:p-8 rounded-3xl grid grid-cols-2 gap-4"
+            className="md:col-span-5 glass-card p-5 sm:p-8 rounded-3xl grid grid-cols-2 gap-3 sm:gap-4"
           >
             {stats.map((stat, idx) => (
               <div
                 key={idx}
-                className="flex flex-col justify-center items-start p-4 rounded-2xl bg-slate-100/60 dark:bg-white/[0.02] border border-slate-200/80 dark:border-white/5 hover:border-violet-500/30 transition-colors"
+                className="flex flex-col justify-center items-start p-3 sm:p-4 rounded-2xl bg-slate-100/60 dark:bg-white/[0.02] border border-slate-200/80 dark:border-white/5 hover:border-violet-500/30 transition-colors"
               >
-                <span className="text-3xl sm:text-4xl font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-violet-500 to-pink-500">
                   {stat.value}
                 </span>
-                <span className="mt-1 text-xs text-slate-600 dark:text-slate-400 font-mono">
+                <span className="mt-1 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-mono leading-tight">
                   {stat.label}
                 </span>
               </div>

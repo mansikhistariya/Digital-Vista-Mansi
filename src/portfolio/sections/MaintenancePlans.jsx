@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, X, ArrowUpRight, Sparkles, Shield } from "lucide-react";
+import { Check, X, ArrowUpRight, Shield } from "lucide-react";
 import { maintenancePlans } from "@/portfolio/data/maintenance";
 
 export default function MaintenancePlans() {
@@ -45,7 +45,7 @@ export default function MaintenancePlans() {
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 px-4 py-1.5 text-xs font-bold text-white shadow-glow">
-                    <Sparkles className="h-3 w-3" />
+                    <Shield className="h-3 w-3" />
                     Most Popular
                   </span>
                 </div>

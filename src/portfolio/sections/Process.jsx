@@ -29,17 +29,16 @@ export default function Process() {
       <div className="max-w-6xl mx-auto">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono font-medium text-cyan-300 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono font-medium text-cyan-600 dark:text-cyan-300 mb-4">
             <GitBranch className="h-3.5 w-3.5" />
             <span>MY DEVELOPMENT PROCESS</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
             How I Deliver{" "}
             <span className="text-gradient-aurora">Results.</span>
           </h2>
-          <p className="mt-4 max-w-2xl text-slate-400 text-sm sm:text-base">
-            A proven, structured approach to building software — from discovery to deployment and
-            ongoing maintenance. No surprises, just clear milestones.
+          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+            A structured approach to building software — from discovery and architecture to development, testing, and deployment.
           </p>
         </div>
 
@@ -69,19 +68,19 @@ export default function Process() {
                     <div className="glass-card glass-card-hover p-6 sm:p-8 rounded-3xl">
                       <div className={`flex items-center gap-3 mb-4 ${isEven ? "lg:flex-row-reverse" : ""}`}>
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/20 to-cyan-500/20 border border-violet-500/20">
-                          {Icon && <Icon className="h-5 w-5 text-violet-400" />}
+                          {Icon && <Icon className="h-5 w-5 text-violet-500 dark:text-violet-400" />}
                         </div>
                         <div>
-                          <span className="text-xs font-mono text-cyan-400 font-bold">
+                          <span className="text-xs font-mono text-cyan-600 dark:text-cyan-400 font-bold">
                             STEP {step.step}
                           </span>
-                          <h3 className="text-lg font-bold font-heading text-slate-100">
+                          <h3 className="text-lg font-bold font-heading text-slate-900 dark:text-slate-100">
                             {step.title}
                           </h3>
                         </div>
                       </div>
 
-                      <p className={`text-sm text-slate-400 leading-relaxed mb-5 ${isEven ? "lg:text-right" : ""}`}>
+                      <p className={`text-sm text-slate-700 dark:text-slate-400 leading-relaxed mb-5 ${isEven ? "lg:text-right" : ""}`}>
                         {step.description}
                       </p>
 
@@ -90,7 +89,7 @@ export default function Process() {
                         {step.deliverables.map((d, dIdx) => (
                           <span
                             key={dIdx}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-400"
+                            className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold"
                           >
                             {d}
                           </span>
@@ -100,8 +99,8 @@ export default function Process() {
                   </div>
 
                   {/* Center Node */}
-                  <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 h-10 w-10 items-center justify-center rounded-full bg-[#050508] border-2 border-violet-500 shadow-glow z-10">
-                    <span className="text-xs font-mono font-bold text-cyan-400">
+                  <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 h-10 w-10 items-center justify-center rounded-full bg-slate-900 dark:bg-[#050508] border-2 border-violet-500 shadow-glow z-10">
+                    <span className="text-xs font-mono font-bold text-cyan-500 dark:text-cyan-400">
                       {step.step}
                     </span>
                   </div>

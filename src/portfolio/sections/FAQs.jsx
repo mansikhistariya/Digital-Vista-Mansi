@@ -14,10 +14,10 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
     >
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-white/[0.02]"
+        className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-slate-100/50 dark:hover:bg-white/[0.02]"
         aria-expanded={isOpen}
       >
-        <span className="text-sm sm:text-base font-semibold text-slate-100 pr-4">
+        <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100 pr-4">
           {faq.question}
         </span>
         <motion.div
@@ -25,7 +25,7 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
           transition={{ duration: 0.3 }}
           className="shrink-0"
         >
-          <ChevronDown className="h-5 w-5 text-violet-400" />
+          <ChevronDown className="h-5 w-5 text-violet-600 dark:text-violet-400" />
         </motion.div>
       </button>
 
@@ -38,8 +38,8 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="px-5 sm:px-6 pb-5 sm:pb-6 border-t border-white/5">
-              <p className="text-sm text-slate-400 leading-relaxed pt-4">
+            <div className="px-5 sm:px-6 pb-5 sm:pb-6 border-t border-slate-200/60 dark:border-white/5">
+              <p className="text-sm text-slate-700 dark:text-slate-400 leading-relaxed pt-4">
                 {faq.answer}
               </p>
             </div>
@@ -65,17 +65,16 @@ export default function FAQs() {
       <div className="max-w-3xl mx-auto">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-mono font-medium text-violet-300 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-mono font-medium text-violet-600 dark:text-violet-300 mb-4">
             <HelpCircle className="h-3.5 w-3.5" />
             <span>FREQUENTLY ASKED QUESTIONS</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
             Common{" "}
             <span className="text-gradient-aurora">Questions.</span>
           </h2>
-          <p className="mt-4 max-w-xl text-slate-400 text-sm sm:text-base">
-            Everything you need to know about working with me. Can't find what
-            you're looking for? Let's talk.
+          <p className="mt-4 max-w-xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+            Everything you need to know about working with me on remote engineering roles or contract projects.
           </p>
         </div>
 

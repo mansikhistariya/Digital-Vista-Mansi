@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
   const [hoverState, setHoverState] = useState("default");
@@ -7,17 +6,18 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
 
-  // Smooth springs for trailing outer ring
-  const springConfig = { damping: 28, stiffness: 350, mass: 0.5 };
-  const smoothX = useSpring(cursorX, springConfig);
-  const smoothY = useSpring(cursorY, springConfig);
+  const mousePos = useRef({ x: -100, y: -100 });
+  const ringPos = useRef({ x: -100, y: -100 });
+  const animFrameId = useRef(null);
 
   useEffect(() => {
-    // Disable custom cursor on touch devices or reduced motion
-    if (window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setIsTouchDevice(true);
       return;
     }
@@ -25,13 +25,12 @@ export default function CustomCursor() {
     document.body.classList.add("has-custom-cursor");
 
     const moveCursor = (e) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      mousePos.current = { x: e.clientX, y: e.clientY };
       if (!isVisible) setIsVisible(true);
     };
 
     const handleMouseOver = (e) => {
-      const target = e.target.closest("a, button, input, textarea, [data-cursor]");
+      const target = e.target.closest("a, button, input, textarea, select, [role='button'], [data-cursor]");
       if (target) {
         const cursorAttr = target.getAttribute("data-cursor");
         if (cursorAttr) {
@@ -55,14 +54,32 @@ export default function CustomCursor() {
     document.addEventListener("mouseleave", handleMouseLeaveWindow);
     document.addEventListener("mouseenter", handleMouseEnterWindow);
 
+    const render = () => {
+      const ease = 0.22;
+      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * ease;
+      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * ease;
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate(-50%, -50%)`;
+      }
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
+      }
+
+      animFrameId.current = requestAnimationFrame(render);
+    };
+
+    animFrameId.current = requestAnimationFrame(render);
+
     return () => {
       document.body.classList.remove("has-custom-cursor");
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseleave", handleMouseLeaveWindow);
       document.removeEventListener("mouseenter", handleMouseEnterWindow);
+      if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [isVisible]);
 
   if (isTouchDevice || !isVisible) return null;
 
@@ -71,54 +88,32 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Inner Dot */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full bg-cyan-400 mix-blend-difference"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        animate={{
-          width: isPointer ? 12 : isText ? 0 : 8,
-          height: isPointer ? 12 : isText ? 0 : 8,
-          opacity: isText ? 0 : 1,
-        }}
-        transition={{ duration: 0.15, ease: "easeOut" }}
+      {/* Inner Hardware-Accelerated Dot */}
+      <div
+        ref={dotRef}
+        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full bg-cyan-400 mix-blend-difference transition-all duration-150 ease-out ${
+          isText ? "opacity-0 w-0 h-0" : isPointer ? "w-3 h-3 opacity-100" : "w-2 h-2 opacity-100"
+        }`}
       />
 
-      {/* Outer Ring / Label Aura */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full flex items-center justify-center border border-violet-400/50 bg-violet-500/10 backdrop-blur-[2px] transition-colors duration-200"
-        style={{
-          x: smoothX,
-          y: smoothY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        animate={{
-          width: isPointer ? 48 : isText ? 72 : 36,
-          height: isPointer ? 48 : isText ? 72 : 36,
-          scale: isPointer ? 1.15 : isText ? 1.25 : 1,
-          borderColor: isPointer
-            ? "rgba(56, 189, 248, 0.8)"
+      {/* Outer Hardware-Accelerated Ring */}
+      <div
+        ref={ringRef}
+        className={`fixed top-0 left-0 pointer-events-none z-[9998] rounded-full flex items-center justify-center border transition-all duration-200 ease-out backdrop-blur-[2px] ${
+          isPointer
+            ? "w-12 h-12 border-cyan-400/80 bg-cyan-500/10 scale-110"
             : isText
-            ? "rgba(168, 85, 247, 0.8)"
-            : "rgba(139, 92, 246, 0.3)",
-        }}
-        transition={{ type: "spring", damping: 24, stiffness: 300 }}
+            ? "w-20 h-20 border-violet-400/80 bg-violet-500/15 scale-110"
+            : "w-9 h-9 border-violet-400/40 bg-violet-500/10 scale-100"
+        }`}
       >
         {isText && hoverText && (
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-[10px] font-mono tracking-wider font-semibold uppercase text-violet-200 text-center px-1"
-          >
+          <span className="text-[10px] font-mono tracking-wider font-semibold uppercase text-violet-200 text-center px-1">
             {hoverText}
-          </motion.span>
+          </span>
         )}
-      </motion.div>
+      </div>
     </>
   );
 }
+

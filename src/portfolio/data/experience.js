@@ -6,12 +6,12 @@ export const experiences = [
     location: "Ahmedabad, India",
     side: "right",
     achievements: [
-      "Architected and delivered scalable MERN Stack  applications using React.js, Next.js, TypeScript, and Tailwind CSS across 3+ concurrent client projects.",
-      "Engineered reusable, component-driven UI libraries that reduced repetitive development efforts by ~30%, accelerating sprint velocity.",
-      "Integrated RESTful APIs using Axios and TanStack Query with intelligent caching, improving responsiveness and reducing redundant network requests.",
-      "Improved Lighthouse performance scores through lazy loading, code splitting, and MERN Stack  optimisation techniques.",
-      "Collaborated cross-functionally with UI/UX designers and backend engineers within agile sprint cycles.",
-      "Enforced accessibility (WCAG) standards and responsive layout practices across diverse device environments.",
+      "Architected and delivered scalable web applications using React.js, Next.js, TypeScript, and Tailwind CSS across client products.",
+      "Engineered modular, reusable UI libraries that reduced repetitive component development time by ~30%.",
+      "Integrated RESTful APIs using Axios and TanStack Query with client-side caching to reduce redundant network requests.",
+      "Optimized web application bundle sizes and assets, achieving 95+ Lighthouse performance scores.",
+      "Collaborated cross-functionally with UI/UX designers and backend engineers in agile sprint cycles.",
+      "Enforced accessibility (WCAG AA) standards and responsive layout practices across all viewports.",
     ],
   },
   {
@@ -21,10 +21,11 @@ export const experiences = [
     location: "Ahmedabad, India",
     side: "left",
     achievements: [
-      "Translated Figma design specifications into pixel-perfect, production-ready responsive interfaces using React.js and Tailwind CSS.",
-      "Developed modular, reusable UI components following component-driven development principles.",
-      "Integrated third-party APIs and implemented form validation using Yup, improving MERN Stack  reliability.",
-      "Participated in agile ceremonies, Git-based version control workflows, and code review processes.",
+      "Translated Figma design specifications into production-ready responsive interfaces using React.js and Tailwind CSS.",
+      "Developed modular UI components following component-driven development principles.",
+      "Integrated third-party REST APIs and implemented client-side form validation using Yup.",
+      "Participated in agile standups, Git-based version control workflows, and code review processes.",
     ],
   },
 ];
+

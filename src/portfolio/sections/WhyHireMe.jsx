@@ -70,17 +70,16 @@ export default function WhyHireMe() {
       <div className="max-w-6xl mx-auto">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-mono font-medium text-emerald-300 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-mono font-medium text-emerald-600 dark:text-emerald-300 mb-4">
             <Award className="h-3.5 w-3.5" />
             <span>WHY WORK WITH ME</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
             What Sets Me{" "}
             <span className="text-gradient-aurora">Apart.</span>
           </h2>
-          <p className="mt-4 max-w-2xl text-slate-400 text-sm sm:text-base">
-            I don't just write code — I deliver complete software solutions. Here's why
-            startups, SaaS companies, and enterprises choose to work with me.
+          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+            I build software with clear architecture, responsive design, and production reliability. Here's why engineering teams and founders partner with me.
           </p>
         </div>
 
@@ -104,16 +103,16 @@ export default function WhyHireMe() {
                   >
                     <Icon className="h-5 w-5 text-white" />
                   </div>
-                  <span className="text-xs font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">
+                  <span className="text-xs font-mono font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-violet-600 to-pink-500 dark:from-cyan-400 dark:to-violet-400">
                     {reason.stat}
                   </span>
                 </div>
 
                 {/* Content */}
-                <h3 className="text-base font-bold font-heading text-slate-100 mb-2 group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-base font-bold font-heading text-slate-900 dark:text-slate-100 mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
                   {reason.title}
                 </h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
+                <p className="text-sm text-slate-700 dark:text-slate-400 leading-relaxed">
                   {reason.description}
                 </p>
               </motion.div>

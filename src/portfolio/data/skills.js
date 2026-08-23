@@ -36,7 +36,7 @@ export const skillCategories = [
         level: "Advanced",
         badge: "Animations",
         tags: ["Scroll Animations", "Layout Motion", "Micro-Interactions", "Canvas"],
-        icon: "Sparkles",
+        icon: "Zap",
       },
       {
         name: "HTML5 / Modern CSS",

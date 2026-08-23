@@ -10,7 +10,7 @@ import {
   FileText,
   X,
   ExternalLink,
-  Sparkles,
+  Command,
   Check,
   Sun,
   Moon,
@@ -57,7 +57,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
       id: "nav-hero",
       title: "Home / Hero",
       category: "Navigation",
-      icon: Sparkles,
+      icon: Command,
       action: () => handleNavigate("#hero"),
     },
     {
@@ -163,11 +163,13 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: "spring", damping: 25, stiffness: 350 }}
-            className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10 dark:bg-[#0c0c14]/90  bg-white shadow-2xl backdrop-blur-2xl"
+            className={`relative w-full max-w-2xl overflow-hidden rounded-2xl border shadow-2xl backdrop-blur-xl ${
+              isLight ? "bg-white border-slate-200 text-slate-900" : "bg-[#0b0b14]/95 border-white/10 text-slate-100"
+            }`}
           >
             {/* Search Input Bar */}
-            <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3.5">
-              <Search className="h-5 w-5 text-violet-400" />
+            <div className={`flex items-center gap-3 border-b px-4 py-3.5 ${isLight ? "border-slate-200 bg-slate-50/50" : "border-white/10 bg-white/[0.02]"}`}>
+              <Search className={`h-5 w-5 ${isLight ? "text-violet-600" : "text-violet-400"}`} />
               <input
                 type="text"
                 aria-label="Type a command or search section"
@@ -175,12 +177,12 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 autoFocus
-                className="w-full bg-transparent text-sm text-slate-100 placeholder-slate-400 focus:outline-none"
+                className={`w-full bg-transparent text-sm focus:outline-none ${isLight ? "text-slate-900 placeholder-slate-400" : "text-slate-100 placeholder-slate-400"}`}
               />
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Close command palette"
-                className="rounded-lg p-1 text-slate-400 hover:bg-white/10 hover:text-white"
+                className={`rounded-lg p-1 transition-colors ${isLight ? "text-slate-500 hover:bg-slate-200 hover:text-slate-900" : "text-slate-400 hover:bg-white/10 hover:text-white"}`}
               >
                 <X className="h-4 w-4" />
               </button>
@@ -189,7 +191,7 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
             {/* Command List */}
             <div className="max-h-[360px] overflow-y-auto p-2">
               {filteredCommands.length === 0 ? (
-                <div className="py-8 text-center text-sm text-slate-400">
+                <div className={`py-8 text-center text-sm ${isLight ? "text-slate-500" : "text-slate-400"}`}>
                   No matching commands found.
                 </div>
               ) : (
@@ -199,22 +201,28 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
                     <button
                       key={cmd.id}
                       onClick={cmd.action}
-                      className="group flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors hover:bg-violet-500/15 hover:text-white"
+                      className={`group flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors ${
+                        isLight
+                          ? "hover:bg-violet-50 text-slate-800 hover:text-violet-900"
+                          : "hover:bg-violet-500/15 text-slate-200 hover:text-white"
+                      }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-violet-400 transition-colors group-hover:bg-violet-500/20 group-hover:text-violet-300">
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+                          isLight ? "bg-violet-100 text-violet-700 group-hover:bg-violet-200" : "bg-white/5 text-violet-400 group-hover:bg-violet-500/20 group-hover:text-violet-300"
+                        }`}>
                           <Icon className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className="font-medium text-slate-200 group-hover:text-white">
+                          <p className={`font-medium ${isLight ? "text-slate-900 group-hover:text-violet-900" : "text-slate-200 group-hover:text-white"}`}>
                             {cmd.title}
                           </p>
-                          <p className="text-[11px] text-slate-400">
+                          <p className={`text-[11px] ${isLight ? "text-slate-500" : "text-slate-400"}`}>
                             {cmd.category}
                           </p>
                         </div>
                       </div>
-                      <ExternalLink className="h-3.5 w-3.5 text-slate-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                      <ExternalLink className={`h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100 ${isLight ? "text-slate-600" : "text-slate-400"}`} />
                     </button>
                   );
                 })
@@ -222,16 +230,18 @@ export default function CommandPalette({ isOpen, setIsOpen }) {
             </div>
 
             {/* Command Footer */}
-            <div className="flex items-center justify-between border-t border-white/10 bg-white/[0.02] px-4 py-2.5 text-[11px] text-slate-400">
+            <div className={`flex items-center justify-between border-t px-4 py-2.5 text-[11px] ${
+              isLight ? "border-slate-200 bg-slate-100/70 text-slate-600" : "border-white/10 bg-white/[0.02] text-slate-400"
+            }`}>
               <div className="flex items-center gap-2">
-                <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">
+                <span className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${isLight ? "bg-slate-200 text-slate-700" : "bg-white/10 text-slate-300"}`}>
                   ESC
                 </span>
                 <span>to close</span>
               </div>
-              <div className="flex items-center gap-1 text-slate-400">
-                <Sparkles className="h-3 w-3 text-cyan-400" />
-                <span>Raycast Navigation</span>
+              <div className="flex items-center gap-1">
+                <Command className={`h-3 w-3 ${isLight ? "text-violet-600" : "text-cyan-400"}`} />
+                <span>Command Navigation</span>
               </div>
             </div>
           </motion.div>

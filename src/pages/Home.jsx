@@ -19,11 +19,21 @@ const Process = lazy(() => import("@/portfolio/sections/Process"));
 const FAQs = lazy(() => import("@/portfolio/sections/FAQs"));
 const Contact = lazy(() => import("@/portfolio/sections/Contact"));
 
+function SectionSkeleton() {
+  return (
+    <div className="py-20 px-4 max-w-6xl mx-auto flex flex-col items-center gap-4 animate-pulse" aria-hidden>
+      <div className="h-6 w-32 rounded-full bg-slate-200 dark:bg-white/10" />
+      <div className="h-10 w-3/4 max-w-md rounded-2xl bg-slate-200 dark:bg-white/10" />
+      <div className="h-4 w-1/2 max-w-sm rounded-lg bg-slate-200 dark:bg-white/10" />
+    </div>
+  );
+}
+
 const Home = () => {
   useLenis();
 
   useEffect(() => {
-    document.title = "Mansi Khistariya — Frontend Developer & React.js Specialist | MERN Stack Engineer";
+    document.title = "Mansi Khistariya — Frontend & Full-Stack MERN Developer | React & Next.js";
   }, []);
 
   return (
@@ -35,7 +45,7 @@ const Home = () => {
         <Header />
         <main id="main-content" className="relative z-10 overflow-hidden">
           <Hero />
-          <Suspense fallback={null}>
+          <Suspense fallback={<SectionSkeleton />}>
             <About />
             <Services />
             <Skills />
@@ -54,3 +64,4 @@ const Home = () => {
 };
 
 export default Home;
+

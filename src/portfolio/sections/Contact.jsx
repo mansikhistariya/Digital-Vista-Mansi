@@ -7,17 +7,25 @@ import {
   Check,
   Globe,
   Clock,
-  Terminal,
-  Sparkles,
   MessageSquare,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/portfolio/components/Icons";
 import { siteConfig } from "@/portfolio/data/site";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
-  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    inquiryType: "Full-Time Remote Role",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(siteConfig.email);
@@ -25,14 +33,89 @@ export default function Contact() {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setErrorMsg("");
+
+  //   if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
+  //     setErrorMsg("Please fill out all required fields.");
+  //     return;
+  //   }
+
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!emailRegex.test(formState.email.trim())) {
+  //     setErrorMsg("Please enter a valid email address.");
+  //     return;
+  //   }
+
+  //   setIsSubmitting(true);
+
+  //   // Simulate reliable API response
+  //   setTimeout(() => {
+  //     setIsSubmitting(false);
+  //     setSubmitted(true);
+  //     setFormState({
+  //       name: "",
+  //       email: "",
+  //       inquiryType: "Full-Time Remote Role",
+  //       message: "",
+  //     });
+  //   }, 1000);
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formState.name || !formState.email || !formState.message) return;
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormState({ name: "", email: "", message: "" });
-    }, 4000);
+    setErrorMsg("");
+
+    if (
+      !formState.name.trim() ||
+      !formState.email.trim() ||
+      !formState.message.trim()
+    ) {
+      setErrorMsg("Please fill out all required fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(formState.email.trim())) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formState.name,
+          from_email: formState.email,
+          inquiry_type: formState.inquiryType,
+          message: formState.message,
+        },
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      );
+
+      setSubmitted(true);
+
+      setFormState({
+        name: "",
+        email: "",
+        inquiryType: "Full-Time Remote Role",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      setErrorMsg(
+        "Unable to send your message right now. Please try again or email me directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -44,7 +127,7 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-mono font-medium text-violet-300 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3.5 py-1 text-xs font-mono font-medium text-violet-600 dark:text-violet-300 mb-4">
             <Mail className="h-3.5 w-3.5" />
             <span>{siteConfig.contact.label}</span>
           </div>
@@ -60,19 +143,19 @@ export default function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column: Direct Inquiries & Interactive Terminal Snippet */}
+          {/* Left Column: Direct Inquiries & Details */}
           <div className="lg:col-span-5 space-y-6">
             {/* Quick Contact Card */}
             <div className="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-              <div className="flex items-center gap-3 text-cyan-500 dark:text-cyan-400">
-                <Sparkles className="h-5 w-5" />
+              <div className="flex items-center gap-3 text-cyan-600 dark:text-cyan-400">
+                <Mail className="h-5 w-5" />
                 <h3 className="text-sm font-mono uppercase tracking-wider font-semibold">
-                  Direct Inquiries
+                  Direct Contact
                 </h3>
               </div>
 
               <div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-mono">
+                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-mono">
                   Primary Email
                 </p>
                 <div className="mt-2 flex items-center justify-between gap-2 p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10">
@@ -137,25 +220,15 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Code Terminal Box */}
-            <div className="glass-card p-5 rounded-3xl border border-slate-200 dark:border-white/10 font-mono text-xs text-slate-700 dark:text-slate-300 space-y-2">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10 text-slate-500">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
-                </div>
-                <span className="text-[10px]">contact.ts</span>
+            {/* Response Time Guarantee Box */}
+            <div className="glass-card p-5 rounded-3xl border border-slate-200 dark:border-white/10 text-xs text-slate-700 dark:text-slate-300 space-y-2">
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-mono font-semibold">
+                <Check className="h-4 w-4" />
+                <span>Response Guarantee</span>
               </div>
-              <p>
-                <span className="text-violet-600 dark:text-violet-400">async function</span>{" "}
-                <span className="text-cyan-600 dark:text-cyan-300">hireMansi</span>() {"{"}
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Whether reviewing for full-time remote engineering roles or discussing contract project scope, I respond to all messages within 24 hours.
               </p>
-              <p className="pl-4 text-slate-600 dark:text-slate-400">
-                <span className="text-violet-600 dark:text-violet-400">return</span> await fetch(
-                <span className="text-emerald-600 dark:text-emerald-400">"mailto:{siteConfig.email}"</span>);
-              </p>
-              <p>{"}"}</p>
             </div>
           </div>
 
@@ -182,14 +255,27 @@ export default function Contact() {
                     Message Sent Successfully!
                   </h4>
                   <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-                    Thank you for reaching out. Mansi will get back to you within 24 hours.
+                    Thank you for reaching out. Mansi will review your message and reply within 24 hours.
                   </p>
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="mt-4 px-4 py-2 rounded-xl text-xs font-mono font-semibold bg-violet-600 text-white hover:bg-violet-700 transition-colors"
+                  >
+                    Send Another Message
+                  </button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {errorMsg && (
+                    <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-mono flex items-center gap-2">
+                      <AlertCircle className="h-4 w-4 shrink-0" />
+                      <span>{errorMsg}</span>
+                    </div>
+                  )}
+
                   <div>
                     <label htmlFor="contact-name" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
-                      YOUR NAME
+                      YOUR NAME *
                     </label>
                     <input
                       id="contact-name"
@@ -206,7 +292,7 @@ export default function Contact() {
 
                   <div>
                     <label htmlFor="contact-email" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
-                      YOUR EMAIL ADDRESS
+                      YOUR EMAIL ADDRESS *
                     </label>
                     <input
                       id="contact-email"
@@ -222,14 +308,34 @@ export default function Contact() {
                   </div>
 
                   <div>
+                    <label htmlFor="contact-type" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
+                      INQUIRY TYPE
+                    </label>
+                    <select
+                      id="contact-type"
+                      value={formState.inquiryType}
+                      onChange={(e) =>
+                        setFormState({ ...formState, inquiryType: e.target.value })
+                      }
+                      className="w-full rounded-2xl bg-white dark:bg-[#0c0c14] border border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:border-violet-500 focus:outline-none transition-colors"
+                    >
+                      {siteConfig.contact.serviceTypes.map((type, idx) => (
+                        <option key={idx} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
                     <label htmlFor="contact-message" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
-                      PROJECT OR ROLE DETAILS
+                      PROJECT OR ROLE DETAILS *
                     </label>
                     <textarea
                       id="contact-message"
                       rows={4}
                       required
-                      placeholder="Tell me about your team, application requirements, or scope..."
+                      placeholder="Tell me about your team requirements, technology stack, or project scope..."
                       value={formState.message}
                       onChange={(e) =>
                         setFormState({ ...formState, message: e.target.value })
@@ -240,11 +346,21 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 py-3.5 text-sm font-semibold text-white shadow-glow hover:shadow-glow-lg transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    disabled={isSubmitting}
+                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 py-3.5 text-sm font-semibold text-white shadow-glow hover:shadow-glow-lg transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60"
                     data-cursor="Send"
                   >
-                    <span>Send Message</span>
-                    <Send className="h-4 w-4" />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="h-4 w-4" />
+                      </>
+                    )}
                   </button>
                 </form>
               )}
@@ -255,3 +371,4 @@ export default function Contact() {
     </section>
   );
 }
+

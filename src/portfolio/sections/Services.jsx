@@ -7,7 +7,6 @@ import {
   Wrench,
   Users,
   ArrowUpRight,
-  Sparkles,
 } from "lucide-react";
 import { services } from "@/portfolio/data/services";
 
@@ -30,17 +29,16 @@ export default function Services() {
       <div className="max-w-6xl mx-auto">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono font-medium text-cyan-300 mb-4">
-            <Sparkles className="h-3.5 w-3.5" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono font-medium text-cyan-600 dark:text-cyan-300 mb-4">
+            <Wrench className="h-3.5 w-3.5" />
             <span>WHAT I DELIVER</span>
           </div>
-          <h2 className="section-heading font-heading text-slate-100">
-            End-to-End Software{" "}
+          <h2 className="section-heading font-heading text-slate-900 dark:text-slate-100">
+            Full-Stack Software{" "}
             <span className="text-gradient-aurora">Services.</span>
           </h2>
-          <p className="mt-4 max-w-2xl text-slate-400 text-sm sm:text-base">
-            From idea to deployment and beyond — I provide complete software development
-            services for startups, SaaS companies, and enterprises.
+          <p className="mt-4 max-w-2xl text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+            From frontend development to cloud deployment — I build and support web applications for remote teams and contract clients.
           </p>
         </div>
 
@@ -65,10 +63,10 @@ export default function Services() {
                 </div>
 
                 {/* Title & Description */}
-                <h3 className="text-lg font-bold font-heading text-slate-100 mb-2 group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-lg font-bold font-heading text-slate-900 dark:text-slate-100 mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-sm text-slate-400 leading-relaxed mb-6">
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
                   {service.description}
                 </p>
 
@@ -77,9 +75,9 @@ export default function Services() {
                   {service.features.map((feature, fIdx) => (
                     <div
                       key={fIdx}
-                      className="flex items-center gap-2 text-xs text-slate-300"
+                      className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 font-medium"
                     >
-                      <span className="h-1 w-1 rounded-full bg-cyan-400 shrink-0" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
                       <span>{feature}</span>
                     </div>
                   ))}
