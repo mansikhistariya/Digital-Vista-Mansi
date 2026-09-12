@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { BrandLogo } from "@/portfolio/components/Icons";
 import { useLoader } from "@/portfolio/context/LoaderContext";
 import { usePrefersReducedMotion } from "@/portfolio/hooks/usePrefersReducedMotion";
 import { siteConfig } from "@/portfolio/data/site";
+import { BrandLogo } from "./Icons";
 
 export default function Loader() {
   const { isLoaded, setLoaded } = useLoader();

@@ -11,8 +11,8 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/portfolio/components/Icons";
 import { siteConfig } from "@/portfolio/data/site";
+import { GithubIcon, LinkedinIcon } from "../components/Icons";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
