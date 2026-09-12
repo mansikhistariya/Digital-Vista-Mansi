@@ -22,7 +22,7 @@ export const siteConfig = {
       { text: "Web Applications.", type: "normal" },
     ],
     intro:
-      "I am a full-stack MERN developer with 1.5+ years of hands-on experience building SaaS dashboards, trading portals, and enterprise safety applications. I partner with engineering teams and founders to build clean, maintainable web applications.",
+      "I am a full-stack MERN developer with 2+ years of hands-on experience building SaaS dashboards, trading portals, and enterprise safety applications. I partner with engineering teams and founders to build clean, maintainable web applications.",
     clientTypes: ["Engineering Teams", "SaaS Founders", "Startups", "Enterprises"],
     ctas: {
       primary: { label: "Explore Featured Work", href: "#projects" },
@@ -32,7 +32,7 @@ export const siteConfig = {
   },
   about: {
     story:
-      "I specialize in building modular, fast React and Next.js interfaces backed by Node.js, Express, and MongoDB. Over the past 1.5+ years, I have engineered key UI workflows for enterprise safety platforms, high-volume financial order books, and AI report intelligence tools. I focus on clean component design, strict state management, and production reliability for high-growth engineering teams and client contracts.",
+      "I specialize in building modular, fast React and Next.js interfaces backed by Node.js, Express, and MongoDB. Over the past 2+ years, I have engineered key UI workflows for enterprise safety platforms, high-volume financial order books, and AI report intelligence tools. I focus on clean component design, strict state management, and production reliability for high-growth engineering teams and client contracts.",
     highlights: [
       "Built production interfaces across 4 main products in SaaS, fintech, AI, and healthcare.",
       "Engineered reusable component libraries that reduced recurring UI build time by ~30%.",
@@ -42,7 +42,7 @@ export const siteConfig = {
       "Deployed and configured web services on AWS EC2, S3, and CloudFront with SSL and domain setups.",
     ],
     stats: [
-      { label: "Years of Experience", value: "1.5+" },
+      { label: "Years of Experience", value: "2+" },
       { label: "Production Apps Delivered", value: "4+" },
       { label: "Technologies Used", value: "10+" },
       { label: "Lighthouse Benchmark", value: "95+" },

@@ -16,7 +16,6 @@
     "server:start": "cd server && npm start"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
     "@types/three": "^0.185.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",

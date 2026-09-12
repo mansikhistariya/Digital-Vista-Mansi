@@ -13,14 +13,12 @@ import {
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/portfolio/components/Icons";
 import { siteConfig } from "@/portfolio/data/site";
-import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    inquiryType: "Full-Time Remote Role",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,36 +30,6 @@ export default function Contact() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setErrorMsg("");
-
-  //   if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
-  //     setErrorMsg("Please fill out all required fields.");
-  //     return;
-  //   }
-
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   if (!emailRegex.test(formState.email.trim())) {
-  //     setErrorMsg("Please enter a valid email address.");
-  //     return;
-  //   }
-
-  //   setIsSubmitting(true);
-
-  //   // Simulate reliable API response
-  //   setTimeout(() => {
-  //     setIsSubmitting(false);
-  //     setSubmitted(true);
-  //     setFormState({
-  //       name: "",
-  //       email: "",
-  //       inquiryType: "Full-Time Remote Role",
-  //       message: "",
-  //     });
-  //   }, 1000);
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,30 +54,37 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formState.name,
-          from_email: formState.email,
-          inquiry_type: formState.inquiryType,
-          message: formState.message,
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        {
-          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-        }
-      );
-
-      setSubmitted(true);
-
-      setFormState({
-        name: "",
-        email: "",
-        inquiryType: "Full-Time Remote Role",
-        message: "",
+        body: JSON.stringify({
+          access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
+          name: formState.name.trim(),
+          email: formState.email.trim(),
+          subject: "Portfolio Direct Message",
+          message: formState.message.trim(),
+        }),
       });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitted(true);
+        setFormState({
+          name: "",
+          email: "",
+          message: "",
+        });
+      } else {
+        setErrorMsg(
+          data.message || "Unable to send your message. Please try again."
+        );
+      }
     } catch (error) {
-      console.error("Email sending failed:", error);
+      console.error("Web3Forms submission failed:", error);
       setErrorMsg(
         "Unable to send your message right now. Please try again or email me directly."
       );
@@ -305,26 +280,6 @@ export default function Contact() {
                       }
                       className="w-full rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-violet-500 focus:outline-none transition-colors"
                     />
-                  </div>
-
-                  <div>
-                    <label htmlFor="contact-type" className="block text-xs font-mono text-slate-700 dark:text-slate-300 mb-1.5">
-                      INQUIRY TYPE
-                    </label>
-                    <select
-                      id="contact-type"
-                      value={formState.inquiryType}
-                      onChange={(e) =>
-                        setFormState({ ...formState, inquiryType: e.target.value })
-                      }
-                      className="w-full rounded-2xl bg-white dark:bg-[#0c0c14] border border-slate-300 dark:border-white/10 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 focus:border-violet-500 focus:outline-none transition-colors"
-                    >
-                      {siteConfig.contact.serviceTypes.map((type, idx) => (
-                        <option key={idx} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </select>
                   </div>
 
                   <div>
